@@ -1,6 +1,6 @@
 Web Optimization Project
 
-View project at 
+View project at http://www.waywardpoints.com/test/
 
 Part I Page Speed Insights
 
