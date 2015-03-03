@@ -450,11 +450,16 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
-    }
+  	  //moved these lines out of the 4 loop, saving more than 100 ms
+  	  var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[1], size);
+      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[1].offsetWidth + dx) + 'px';
+  	  var pizzacount = document.querySelectorAll(".randomPizzaContainer").length;
+  	
+    for (var i = 0; i < pizzacount; i++) {
+ 
+     // previously the slower document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+     document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+   }
   }
 
   changePizzaSizes(size);
@@ -462,7 +467,7 @@ var resizePizzas = function(size) {
   // User Timing API is awesome
   window.performance.mark("mark_end_resize");
   window.performance.measure("measure_pizza_resize", "mark_start_resize", "mark_end_resize");
-  var timeToResize = window.performance.getEntriesByName("measure_pizza_resize");
+  var timeToResize = window.performance.getEntriesByName("measure_pizza_resize");// must resist temptation to change this value LOL
   console.log("Time to resize pizzas: " + timeToResize[0].duration + "ms");
 };
 
@@ -503,10 +508,37 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
+  var cachedScrollTop = document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    var phase = Math.sin((cachedScrollTop / 1250) + (i % 5));
+  // replaced items[i].style.left = items[i].basicLeft + 100 * phase + 'px'; with below line
+    items[i].style.transform = "translateX(items[i].basicLeft + 100 * phase + 'px')";
   }
+  
+/*  
+ sample from slashdot.  need to replace stlye w/ translate.
+box.style.transform = "translateX(200px)";
+vs
+box.style.left = "200px";
+  
+  */
+  
+ /*Here is the original code from igvita.com
+  
+        function updatePositions() {
+            var heavyScroll = !!document.querySelector('#heavy-scroll').checked;
+            var items = document.querySelectorAll('.mover');
+            var cachedScrollTop = document.body.scrollTop;
+            for (var i = 0; i < items.length; i++) {
+                var phase;
+                if (heavyScroll) phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+                else
+                    phase = Math.sin((cachedScrollTop / 1250) + (i % 5));
+                items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+            }
+        }
+  * */ 
+  
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -521,11 +553,13 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
-// Generates the sliding pizzas when the page loads.
-document.addEventListener('DOMContentLoaded', function() {
+// Generates the sliding pizzas when the page loads.AND IS SLOWING FPS!!!
+//was document.addEventListener('DOMContentLoaded', function() {
+// only need to make the pizzas one time.
+document.addEventListener('DOMContentLoaded', function() {	
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < 100; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
@@ -537,3 +571,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   updatePositions();
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {console.log("dom content loaded");});
+
+
+
+
