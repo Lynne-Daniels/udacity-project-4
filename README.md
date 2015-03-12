@@ -1,73 +1,129 @@
-## Website Performance Optimization portfolio project
+Web Optimization Project
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
+View project at http://www.waywardpoints.com/test/
 
-To get started, check out the repository, inspect the code,
+Part I Page Speed Insights
 
-### Getting started
+ftp'd files to http://www.waywardpoints.com/test/ on a commercial linux web server.
 
-####Part 1: Optimize PageSpeed Insights score for index.html
+The web server compresses the files and maybe does some other magic.  Just the hosting changed from local DCL: 22192ms, onload: 22229ms to hosted DCL: 165ms, onload: 516ms.
 
-Some useful tips to help you get started:
+Checked Page Speed Insights
 
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
+Learned Images are too big.
 
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
+pizzeria.jpg:
 
-1. Open a browser and visit localhost:8080
-1. Download and install [ngrok](https://ngrok.com/) to make your local server accessible remotely.
+Compressed file and reduced dimesions to 500x375. Files size reduced from 2.25MB to 25KB.
+Used Gimp (photo software) to save file with lower quality level (35%?).
 
-  ``` bash
-  $> cd /path/to/your-project-folder
-  $> ngrok 8080
-  ```
+profilepic.jpg
 
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
+Compressed in Gimp, reducing file size to 5.22KB from 15KB.
 
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 
-####Part 2: Optimize Frames per Second in pizza.html
+Hmmm...after uploading the smaller photos, the load stats changed on the hosted page to DCL: 10102ms, onload: 17673ms.  I don't know why it got slower.  The local copy changed from DCL: 22113ms, onload: 22114ms to DCL: 22183ms, onload: 22187ms
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
+I tried to duplicate the change by removing and resending the two image files to the server.  I did not get the same large times.  I did notice a 2.25MB copy of the image in the server dirctory that was replaced earlier.  I deleted that, had some error messages, then uploaded the images.  After that, times were DCL: 155ms, onload: 497ms.
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+Added asych in index.html <script async src="http://www.google-analytics.com/analytics.js" ></script>
 
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
+added media="print" to the print style sheet to make it non-blocking
 
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
+page speed changed from 28/100 to 75/100mobile, 88/100 desktop
 
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
+noticed the google fonts take much longer than the other stuff to load.
+http://fonts.googleapis.com/css?family=Open+Sans:400,700 works, but there is an error in the console from the pizza page.  
 
-### Sample Portfolios
+Read http://www.google.com/fonts#UsePlace:use/Collection:Open+Sans
 
-Feeling uninspired by the portfolio? Here's a list of cool portfolios I found after a few minutes of Googling.
+In index.html, replaced   broken link 
 
-* <a href="http://www.reddit.com/r/webdev/comments/280qkr/would_anybody_like_to_post_their_portfolio_site/">A great discussion about portfolios on reddit</a>
-* <a href="http://ianlunn.co.uk/">http://ianlunn.co.uk/</a>
-* <a href="http://www.adhamdannaway.com/portfolio">http://www.adhamdannaway.com/portfolio</a>
-* <a href="http://www.timboelaars.nl/">http://www.timboelaars.nl/</a>
-* <a href="http://futoryan.prosite.com/">http://futoryan.prosite.com/</a>
-* <a href="http://playonpixels.prosite.com/21591/projects">http://playonpixels.prosite.com/21591/projects</a>
-* <a href="http://colintrenter.prosite.com/">http://colintrenter.prosite.com/</a>
-* <a href="http://calebmorris.prosite.com/">http://calebmorris.prosite.com/</a>
-* <a href="http://www.cullywright.com/">http://www.cullywright.com/</a>
-* <a href="http://yourjustlucky.com/">http://yourjustlucky.com/</a>
-* <a href="http://nicoledominguez.com/portfolio/">http://nicoledominguez.com/portfolio/</a>
-* <a href="http://www.roxannecook.com/">http://www.roxannecook.com/</a>
-* <a href="http://www.84colors.com/portfolio.html">http://www.84colors.com/portfolio.html</a>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">  
+
+with
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+Now the error message is gone and the page is received at about the same time as all the others.
+
+page now says DCL: 93ms, onload: 199ms on local copy, DCL: 130ms, onload: 443ms on hosted copy
+
+pagespeed insights page speed is the same
+
+Removed the link to the fonts.  Grabbed the CCS for the latin fonts only and inlined it on the html page.
+
+General info on FPS
+http://www.smashingmagazine.com/2013/06/10/pinterest-paint-performance-case-study/
+
+used https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries to move css into media query file for small screens, but then got a better page insight score with it inline.
+
+moved all of style.css into inline styles in index.html
+
+Considered minifying the html and css, but have already met page speed requirements. Looks like I should have minified BEFORE inlining the CSS as different programs do each type of file.  The next project is something I want to use IRL.  Will check into minification then.
+
+Part II pizza.html
+
+Grabbed source code from https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html --
+
+Used http://jsbeautifier.org/ to make the js readable.  Found the difference between the heavy scroll and non-heavy scroll is using var cachedScrollTop = document.body.scrollTop; 
+
+http://www.phpied.com/rendering-repaint-reflowrelayout-restyle/ explains how requesting scrollTop messes up the browsers work flow and causes everything to be recalculated.
+
+
+Pizza Scrolling
+moved size computations out of the for loop.  Pizzas are all the same size, can just do that one time.  Changed from over 100ms to a little over 10ms.
+
+  	  var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[1], size);
+      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[1].offsetWidth + dx) + 'px';
+
+for loop was recounting the pizzas.
+added var pizzacount = document.querySelectorAll(".randomPizzaContainer").length;
+  	
+    for (var i = 0; i < pizzacount; i++)
+
+watched https://plus.google.com/u/0/events/c8eah6f0d0t9eretebpm7dqi0ok?authkey=CKaNhtb0quvqKA
+
+added backface-visibility: hidden to css of .mover  This reduced paint time dramatically.
+
+changed number of mover pizzas from 200 to 100
+
+Changed      // document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+
+To the faster
+
+     document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+
+
+https://jsperf.com/getelementsbyclassname-vs-queryselectorall/18 shows me to change .randomPizzaContainer to randomPizzaContainer without the leading dot.
+
+from http://stackoverflow.com/questions/7108941/css-transform-vs-position
+box.style.transform = "translateX(200px)";
+vs
+box.style.left = "200px";
+
+article here:  http://www.paulirish.com/2012/why-moving-elements-with-translate-is-better-than-posabs-topleft/
+
+Getting better.  It meets, but just. There are often multiple scroll events happening in a frame when I scroll with the touchpad.  It looks really good if i scroll with the arrow key.  I think the links below show a way to fix that.
+
+http://www.html5rocks.com/en/tutorials/speed/scrolling/
+http://www.html5rocks.com/en/tutorials/speed/animations/ - shows how to use requestAnimationFrame to improve timing of redraws.  I dont understand it %100 percent.  Have not tried it.
+
+Reading https://developer.chrome.com/devtools/docs/heap-profiling and https://developer.chrome.com/devtools/docs/memory-analysis-101 now.
+
+I would also like to know why the JS Heap keeps getting bigger.  Is that normal?  I tried to understand the Profiles tab of the dev tools, but I couldn't find problem and was a little worried I was on a wild goose chase.
+
+3/11/15 -- received rejection of first draft.  I had broken the moving pizzas without realizing.  The change from style.left to translateX seems to be the problem.
+Changed that back, but now frame rate is sometimes over 60 fps.
+
+  restored items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+ got rid of //items[i].style.transform = "translateX(items[i].basicLeft + 100 * phase + 'px')";
+ 
+looked at console.log(items[i].basicLeft);
+   
+Changed   //items[i].style.left = items[i].style.left = items[i].basicLeft + 100 * phase + 'px'; + 100 * phase + 'px';
+ to items[i].style.left = (i%8)*256 + 100 * phase + 'px';
+ 
+This looks better.  Googled why there are gray outlines on the timeline.  Might be stuff the computer is doing in the background?  I have had a zillion windows open for days.  Restarted.
+
+Under 60 fps now.  Compared items[i].basicLeft vs (i%8)*256. Can't see a difference.  Put it back to original.

@@ -506,13 +506,16 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
   var items = document.querySelectorAll('.mover');
   var cachedScrollTop = document.body.scrollTop;
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin((cachedScrollTop / 1250) + (i % 5));
-  // replaced items[i].style.left = items[i].basicLeft + 100 * phase + 'px'; with below line
-    items[i].style.transform = "translateX(items[i].basicLeft + 100 * phase + 'px')";
+ // console.log(items[i].basicLeft);  
+  items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  //items[i].style.left = (i%8)*256 + 100 * phase + 'px';
+  //items[i].style.transform = "translateX(items[i].basicLeft + 100 * phase + 'px')";
+//  console.log(items[i].basicLeft);
+    // replaced items[i].style.transform = "translateX(items[i].basicLeft + 100 * phase + 'px')";  with above line
   }
   
 /*  
@@ -560,6 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
   for (var i = 0; i < 100; i++) {
+  	console.log(i);
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
